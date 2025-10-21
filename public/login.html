@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hotel Maravilla</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center fw-bold"> Inicio de Sesión de Usuarios</h2>
+                    </div>
+                    <div class="card-body">           
+
+                        <form class="row g-3">
+                            <div class="mb-3">
+                                <label for="validationServerUsername" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="usuario" aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback" required>
+                                <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                                    Introduzca un nombre de usuario.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="contrasenaLogin" aria-describedby="exampleInputPassword1" required>
+                                <div id="exampleInputPassword1"  class="invalid-feedback">
+                                    Introduzca una contraseña.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit" id="inicioSesion">Iniciar Sesión</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>
+
