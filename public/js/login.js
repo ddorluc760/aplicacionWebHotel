@@ -1,12 +1,12 @@
 document.getElementById("inicioSesion").addEventListener("click", function(e){
+    e.preventDefault();
+    
     inicioSesion(e);
 });
 
 function inicioSesion(e){
     const usuario = document.getElementById("usuario").value;
     const password = document.getElementById("contrasenaLogin").value;
-
-    console.log("Correo electrónico: " + usuario + "\nContraseña: " + password);
 
     validacionCampos(usuario, password, e);
 };
@@ -18,17 +18,12 @@ function validacionCampos(usuario, password, e){
     }else{
         document.getElementById("usuario").classList.remove('is-invalid');
         document.getElementById("usuario").classList.add('is-valid');
-        console.log('El usuario está completo');
 
         if(password == ''){
-            alert('La contraseña está vacía');
             document.getElementById("contrasenaLogin").classList.add("is-invalid");
         } else{
             document.getElementById("contrasenaLogin").classList.remove("is-invalid");
             document.getElementById("contrasenaLogin").classList.add("is-valid");
-            console.log('La contraseña esta completa');
-
-            e.preventDefault();
 
             loginPostgreSQL(usuario, password);
         }

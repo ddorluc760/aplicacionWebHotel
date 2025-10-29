@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.post('/login', async(req, res) => {
 
     const { usuario, password } = req.body;
+    let query = '';
 
     if (!usuario || !password){
         return res.status(400).json({ error: 'Falta usuario o contraseña' });
@@ -37,13 +38,12 @@ app.post('/login', async(req, res) => {
 
         try {
             await conexion.connect();
-            //await conexion.end();
-            res.json({ ok: true, msg: 'Login correcto' });
+            res.json({ ok: true, msg: 'Login correcto'});
             
         } catch(err){
             await conexion.end().catch(() => {});
             res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
-        }
+        } 
     }
 
 });
@@ -60,19 +60,23 @@ app.get('/menu/tablaHabitaciones', (req, res) => {
             host: "192.168.122.79",
             port: 5432,
             database: "webhotel",
-            user: usuario,
-            password: password
+            user: usuario, //Cambio realizado
+            password: password //Cambio realizado
         });
 
         conexion.connect().then(() => {
-            const query = `SELECT * FROM habitaciones WHERE id IN (SELECT idHabitacion FROM reservas WHERE idCliente IN (SELECT id FROM clientes WHERE id IN (SELECT idCliente FROM usuarios WHERE usuario = $1 AND password = $2)) );`;
+            const query = `SELECT * FROM habitaciones WHERE id IN (SELECT idHabitacion FROM reservas 
+            WHERE idCliente IN (SELECT id FROM clientes 
+            WHERE id IN (SELECT idCliente FROM usuarios 
+            WHERE usuario = $1 AND password = $2)) );`;
             return conexion.query(query, [usuario, password]);
-        }).then(result => {
+        }).then(result => { 
             res.json({ ok: true, datos: result.rows});
             //return conexion.end();
         }).catch(err => {
             console.error("Error al obtener habitaciones: ", err.message);
             res.status(500).json({ error: "No se pudieron obtener los datos" });
+        }).finally(() => {
             conexion.end();
         });
     }
@@ -95,7 +99,10 @@ app.get('/menu/tablaReservas', (req, res) => {
         });
 
         conexion.connect().then(() => {
-            const query = `SELECT r.* FROM reservas r WHERE r.idCliente IN (SELECT c.id FROM clientes c WHERE c.id IN (SELECT u.idCliente FROM usuarios u WHERE u.usuario = $1 AND u.password = $2))`;
+            const query = `SELECT r.* FROM reservas r
+            WHERE r.idCliente IN (SELECT c.id FROM clientes c
+            WHERE c.id IN (SELECT u.idCliente FROM usuarios u 
+            WHERE u.usuario = $1 AND u.password = $2))`;
             return conexion.query(query, [usuario, password]);
         }).then(result => {
             res.json({
@@ -132,7 +139,11 @@ app.get('/menu/tablaPagos', (req, res) => {
         });
 
         conexion.connect().then(() => {
-            const query = `SELECT p.* FROM pagos p WHERE p.idReserva IN (SELECT r.id FROM reservas r WHERE r.idCliente IN (SELECT c.id FROM clientes c WHERE c.id IN (SELECT u.idCliente FROM usuarios u WHERE u.usuario = $1 AND u.password = $2)))`;
+            const query = `SELECT p.* FROM pagos p 
+            WHERE p.idReserva IN (SELECT r.id FROM reservas r 
+            WHERE r.idCliente IN (SELECT c.id FROM clientes c 
+            WHERE c.id IN (SELECT u.idCliente FROM usuarios u 
+            WHERE u.usuario = $1 AND u.password = $2)))`;
             return conexion.query(query, [usuario, password]);
         }).then(result => {
             res.json({
@@ -164,7 +175,9 @@ app.get('/menu/tablaClientes', (req,res) => {
         });
 
         conexion.connect().then(() => {
-            const query = `SELECT c.* FROM clientes c WHERE c.id IN (SELECT u.idCliente FROM usuarios u WHERE u.usuario = $1 AND u.password = $2)`;
+            const query = `SELECT c.* FROM clientes c 
+            WHERE c.id IN (SELECT u.idCliente FROM usuarios u 
+            WHERE u.usuario = $1 AND u.password = $2)`;
             return conexion.query(query, [usuario, password]);
         }).then(result => {
             res.json({
@@ -195,7 +208,8 @@ app.get('/menu/tablaUsuarios', (req,res) => {
         });
 
         conexion.connect().then(() => {
-            const query = `SELECT u.* FROM usuarios u WHERE u.usuario = $1 AND u.password = $2`;
+            const query = `SELECT u.* FROM usuarios u 
+            WHERE u.usuario = $1 AND u.password = $2`;
             return conexion.query(query, [usuario, password]);
         }).then(result => {
             res.json({

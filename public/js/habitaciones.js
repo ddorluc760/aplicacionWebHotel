@@ -16,6 +16,10 @@ function cargarTablaHabitaciones(){
     const usuario = sessionStorage.getItem('usuario');
     const password = sessionStorage.getItem('password');
 
+    //const urlParams = new URLSearchParams(window.location.search);
+    //const usuario = urlParams.get('usuario') || sessionStorage.getItem('usuario');
+    //const password = urlParams.get('password') || sessionStorage.getItem('password');
+
     fetch('/menu/tablaHabitaciones', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json',
